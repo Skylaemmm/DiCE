@@ -39,6 +39,10 @@ def decide(data_interface, model_interface):
         from dice_ml.explainer_interfaces.dice_pytorch import DicePyTorch
         return DicePyTorch
 
+    elif model_interface.backend == 'GPPYT': # PyTorch backend
+        from dice_ml.explainer_interfaces.dice_pytorch import GPDicePyTorch
+        return GPDicePyTorch
+
     else: # all other backends
         backend_dice = model_interface.backend['explainer']
         module_name, class_name = backend_dice.split('.')

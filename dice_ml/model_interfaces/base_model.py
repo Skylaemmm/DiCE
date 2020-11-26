@@ -4,7 +4,7 @@
 
 class BaseModel:
 
-    def __init__(self, model=None, model_path='', backend=''):
+    def __init__(self, model=None, likelihood=None,model_path='', backend=''):
         """Init method
 
         :param model: trained ML Model.
@@ -13,6 +13,7 @@ class BaseModel:
         """
 
         self.model = model
+        self.likelihood = likelihood
         self.model_path = model_path
         self.backend = backend
 

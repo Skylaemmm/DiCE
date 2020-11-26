@@ -16,13 +16,13 @@ class Model:
         if((model is None) & (model_path == '')):
             raise ValueError("should provide either a trained model or the path to a model")
         else:
-            self.decide_implementation_type(model, model_path, backend)
+            self.decide_implementation_type(model, likelihood, model_path, backend)
 
-    def decide_implementation_type(self, model, model_path, backend):
+    def decide_implementation_type(self, model, likelihood ,model_path, backend):
         """Decides the Model implementation type."""
 
         self.__class__  = decide(backend)
-        self.__init__(model, model_path, backend)
+        self.__init__(model, likelihood ,model_path, backend)
 
 # To add new implementations of Model, add the class in model_interfaces subpackage and import-and-return the class in an elif loop as shown in the below method.
 
@@ -33,14 +33,14 @@ def decide(backend):
         from dice_ml.model_interfaces.keras_tensorflow_model import KerasTensorFlowModel
         return KerasTensorFlowModel
 
+    elif backend == 'GPPYT': # GPPyTorch backend
+        from dice_ml.model_interfaces.pytorch_model import GPPyTorchModel
+        return GPPyTorchModel
+
     elif backend == 'PYT': # PyTorch backend
         from dice_ml.model_interfaces.pytorch_model import PyTorchModel
         return PyTorchModel
 
-    elif backend == 'GPPYT': # PyTorch backend
-        from dice_ml.model_interfaces.pytorch_model import GPPyTorchModel
-        return GPPyTorchModel
-        
     else: # all other implementations and frameworks
         backend_model = backend['model']
         module_name, class_name = backend_model.split('.')
