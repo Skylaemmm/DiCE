@@ -5,7 +5,7 @@ The implementations contain methods to access the output or gradients of ML mode
 
 class Model:
     """An interface class to different ML Model implementations."""
-    def __init__(self, model=None, model_path='', backend='TF1'):
+    def __init__(self, model=None, likelihood=None,model_path='', backend='TF1'):
         """Init method
 
         :param model: trained ML model.
@@ -37,6 +37,10 @@ def decide(backend):
         from dice_ml.model_interfaces.pytorch_model import PyTorchModel
         return PyTorchModel
 
+    elif backend == 'GPPYT': # PyTorch backend
+        from dice_ml.model_interfaces.pytorch_model import GPPyTorchModel
+        return GPPyTorchModel
+        
     else: # all other implementations and frameworks
         backend_model = backend['model']
         module_name, class_name = backend_model.split('.')
