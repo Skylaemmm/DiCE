@@ -51,7 +51,7 @@ class GPPyTorchModel(BaseModel):
         input_shape_list = list(input_tensor.shape)
         if len(input_shape_list) ==1:
             input_tensor = input_tensor.reshape(1,input_shape_list[0])
-        return self.likelihood(self.model(input_tensor)).mean.ge(0.5).float()
+        return self.likelihood(self.model(input_tensor)).mean.float()
 
     def set_eval_mode(self):
         self.model.eval()
