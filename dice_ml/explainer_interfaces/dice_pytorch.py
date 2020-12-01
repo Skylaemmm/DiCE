@@ -888,8 +888,11 @@ class GPDicePyTorch(ExplainerBase):
 
         # find the predicted value of query_instance
         test_pred = self.predict_fn(torch.tensor(query_instance).float())[0]
+        print('query instance is', query_instance)
+        print('test pred is', test_pred)
         if desired_class == "opposite":
             desired_class = 1.0 - round(test_pred)
+        print('desired class is', desired_class)
         self.target_cf_class = torch.tensor(desired_class).float()
 
         self.min_iter = min_iter
@@ -970,7 +973,7 @@ class GPDicePyTorch(ExplainerBase):
                 # backing up CFs if they are valid
                 temp_cfs_stored = self.round_off_cfs(assign=False)
                 test_preds_stored = [self.predict_fn(cf) for cf in temp_cfs_stored]
-
+                print('stored test preds', test_preds_stored)
                 if((self.target_cf_class == 0 and all(i <= self.stopping_threshold for i in test_preds_stored)) or (self.target_cf_class == 1 and all(i >= self.stopping_threshold for i in test_preds_stored))):
                     avg_preds_dist = np.mean([abs(pred[0]-self.stopping_threshold) for pred in test_preds_stored])
                     if avg_preds_dist < self.min_dist_from_threshold:
